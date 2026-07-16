@@ -1,0 +1,22 @@
+{
+  "JWT_SECRET": {
+    "value": "${{secret(48)}}",
+    "description": "JWT signing key for dashboard session tokens. Generate with: openssl rand -base64 48"
+  },
+  "API_KEY_SECRET": {
+    "value": "${{secret(32)}}",
+    "description": "Encryption key for API keys stored in the database. Generate with: openssl rand -hex 32"
+  },
+  "INITIAL_PASSWORD": {
+    "value": "${{secret(16)}}",
+    "description": "Initial admin login password. Change this after first login via Dashboard → Settings → Security"
+  },
+  "DATA_DIR": {
+    "value": "/app/data",
+    "description": "Data directory for SQLite database and storage (must match volume mount)"
+  },
+  "PORT": {
+    "value": "20128",
+    "description": "Port for Dashboard UI and API (single-port mode)"
+  }
+}

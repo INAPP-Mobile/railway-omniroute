@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Route/proxy icon -->
+  <g transform="translate(300,315)">
+    <circle cx="0" cy="0" r="80" fill="#FFFFFF"/>
+    <path d="M -320 -100 L -160 -100 L -180 -120 L -120 -100 L -180 -80 L -160 -100" stroke="#FFFFFF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M -320 100 L -160 100 L -180 120 L -120 100 L -180 80 L -160 100" stroke="#FFFFFF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 80 0 L 320 0 L 300 -20 L 340 0 L 300 20" stroke="#FFFFFF" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Text -->
+  <text x="720" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#FFFFFF">OmniRoute</text>
+  <text x="720" y="340" font-family="Arial, sans-serif" font-size="32" fill="#FFFFFF" opacity="0.9">LLM Proxy &amp; Router</text>
+</svg>
