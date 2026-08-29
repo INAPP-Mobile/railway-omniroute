@@ -1,6 +1,6 @@
 # Deploy and Host
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/new/template/omniroute)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.com/deploy/omniroute-1)
 
 ![OmniRoute OG Image](https://raw.githubusercontent.com/INAPP-Mobile/railway-omniroute/main/og-image.svg)
 
