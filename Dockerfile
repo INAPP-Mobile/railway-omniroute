@@ -4,6 +4,14 @@
 # before bumping.
 FROM diegosouzapw/omniroute:3.8.49
 
+# Heap sizing vs Railway plan caps (verified 2026-08-29 under cgroup OOM tests):
+# - upstream bakes OMNIROUTE_MEMORY_MB=1024; idle RSS ~595MB spikes past 1GB on
+#   first dashboard render -> cgroup OOM-kill -> restart loop -> healthcheck FAIL
+# - 614 heap: boots ~609MB RSS, survives 8x full UI renders at 622MB of 1GB
+# - 512MB (Free plan) cannot fit this app at any heap (256 = UI OOM, 128 = boot OOM)
+# Railway Trial/Hobby = 1GB per service; see README requirements.
+ENV OMNIROUTE_MEMORY_MB=614
+
 # OmniRoute runs on port 20128 by default
 EXPOSE 20128
 

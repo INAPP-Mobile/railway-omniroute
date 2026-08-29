@@ -33,6 +33,8 @@ OmniRoute runs as a single Docker container on port 20128. Railway provides comp
 
 OmniRoute is a standalone service that requires no external dependencies on Railway. All data is stored in the container's `/app/data` directory using SQLite. Add a Railway Volume for persistent storage of your database, provider configurations, and usage logs.
 
+**Memory requirement:** at least **1 GB RAM per service**. Use a Trial, Hobby, or Pro plan — the Free plan (0.5 GB) is below this app's boot footprint and will OOM-loop. The template pre-sizes the Node heap (`OMNIROUTE_MEMORY_MB=614`) so the dashboard UI can render within a 1 GB service limit without OOM kills.
+
 ---
 
 # OmniRoute — Unified LLM Proxy & Router
