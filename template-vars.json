@@ -29,6 +29,11 @@
       "description": "Port for Dashboard UI and API (single-port mode)",
       "defaultValue": "20128",
       "isOptional": true
+    },
+    {
+      "name": "OMNIROUTE_MEMORY_MB",
+      "description": "Node.js heap size in MB. Leave empty for automatic sizing (60% of container memory, min 614MB). Set explicitly if you want a fixed heap, e.g. 2048 on a 4GB+ plan",
+      "isOptional": true
     }
   ]
 }
