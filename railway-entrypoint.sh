@@ -38,4 +38,6 @@ fi
 # cannot write them -> fatal EACCES on the SQLite dir. Root matches the
 # official upstream template behavior on Railway.
 mkdir -p "${DATA_DIR:-/app/data}" 2>/dev/null || true
-exec /tmp/check-permissions.sh "$@"
+# Runs as root (USER root), so the root-owned Railway volume is writable and no
+# separate permission-fix helper is needed. Exec the app CMD directly.
+exec "$@"
