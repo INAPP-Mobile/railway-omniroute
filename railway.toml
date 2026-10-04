@@ -3,10 +3,17 @@ builder = "DOCKERFILE"
 
 [deploy]
 startCommand = ""
-healthcheckPath = "/api/monitoring/health"
-healthcheckTimeout = 100
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
+
+# Probe /healthz, NOT /api/monitoring/health. Upstream #10311 documents that
+# the deep monitoring path runs synchronous SQLite reads + monitoring
+# aggregation on the same single event loop as catalog rebuild and long-context
+# compression; under load it stalls past the timeout and Railway restarts the
+# only replica, killing active SSE streams. /healthz is a pure in-memory
+# lifecycle check with no DB access (upstream's own HEALTHCHECK uses it).
+healthcheckPath = "/healthz"
+healthcheckTimeout = 100
 
 [[deploy.volumes]]
 source = "omniroute-data"

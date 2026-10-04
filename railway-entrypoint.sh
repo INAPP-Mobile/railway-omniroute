@@ -2,11 +2,17 @@
 set -e
 
 # ── Adaptive V8 heap sizing ────────────────────────────────────────────────
-# Explicit OMNIROUTE_MEMORY_MB (image default is intentionally blanked in the
-# Dockerfile) always wins. Otherwise derive heap from the container's cgroup
-# memory limit at 60%, floored at 614MB — the verified boot + dashboard-render
-# floor under Railway's 1GB Trial service cap (upstream's baked 1024 heap
-# OOM-kills there; 512MB plans cannot fit this app at any heap).
+# Explicit OMNIROUTE_MEMORY_MB (both image defaults are intentionally blanked
+# in the Dockerfile) always wins. Otherwise derive heap from the container's
+# cgroup memory limit at 60%, floored at 614MB — the verified boot +
+# dashboard-render floor under a 1GB service cap.
+#
+# The floor is capped at the container's own limit. A 0.5GB service gets a
+# 307MB heap rather than a 614MB one: V8 sizing its heap ABOVE the cgroup limit
+# lets RSS grow past the limit before the collector runs, which is exactly the
+# cgroup OOM-kill -> restart -> healthcheck FAIL loop the template is fighting.
+# Sizing under the limit keeps the JS heap inside the container's budget and
+# lets V8 GC reclaim before the kernel kills the process.
 if [ -z "$OMNIROUTE_MEMORY_MB" ]; then
   LIMIT_BYTES=""
   if [ -r /sys/fs/cgroup/memory.max ]; then
@@ -18,19 +24,30 @@ if [ -z "$OMNIROUTE_MEMORY_MB" ]; then
       LIMIT_BYTES=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null || echo "")
     fi
   fi
-  HEAP_MB=""
+  LIMIT_MB=""
   case "$LIMIT_BYTES" in
     ""|max) ;;
     *)
       if [ "$LIMIT_BYTES" -gt 0 ] 2>/dev/null && [ "$LIMIT_BYTES" -lt 9007199254740992 ] 2>/dev/null; then
-        HEAP_MB=$((LIMIT_BYTES / 1048576 * 60 / 100))
+        LIMIT_MB=$((LIMIT_BYTES / 1048576))
       fi
       ;;
   esac
-  if [ -z "$HEAP_MB" ] || [ "$HEAP_MB" -lt 614 ] 2>/dev/null; then
+  HEAP_MB=""
+  if [ -n "$LIMIT_MB" ]; then
+    HEAP_MB=$((LIMIT_MB * 60 / 100))
+    if [ "$HEAP_MB" -lt 614 ] 2>/dev/null; then
+      # Only apply the 614MB floor when the container can actually hold it.
+      HEAP_MB=614
+      if [ "$HEAP_MB" -gt "$LIMIT_MB" ] 2>/dev/null; then
+        HEAP_MB=$LIMIT_MB
+      fi
+    fi
+  else
     HEAP_MB=614
   fi
   export OMNIROUTE_MEMORY_MB="$HEAP_MB"
+  export NODE_OPTIONS="--max-old-space-size=$HEAP_MB"
 fi
 
 # ── App start ──────────────────────────────────────────────────────────────
