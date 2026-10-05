@@ -19,6 +19,36 @@
       "isOptional": false
     },
     {
+      "name": "BASE_URL",
+      "description": "Canonical server-side public URL of this deployment. Without it the app falls back to http://localhost:20128, which breaks OAuth callback and cloud-sync links in the dashboard.",
+      "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+      "isOptional": true
+    },
+    {
+      "name": "NEXT_PUBLIC_BASE_URL",
+      "description": "Browser-facing public URL, baked into the client bundle. Must match BASE_URL.",
+      "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+      "isOptional": true
+    },
+    {
+      "name": "HOSTNAME",
+      "description": "Bind address. Must be 0.0.0.0 for Railway to route traffic to the service.",
+      "defaultValue": "0.0.0.0",
+      "isOptional": true
+    },
+    {
+      "name": "NODE_ENV",
+      "description": "Next.js runtime mode.",
+      "defaultValue": "production",
+      "isOptional": true
+    },
+    {
+      "name": "AUTH_COOKIE_SECURE",
+      "description": "Set the Secure flag on session cookies. Upstream defaults to false, which sends session cookies without the Secure attribute.",
+      "defaultValue": "true",
+      "isOptional": true
+    },
+    {
       "name": "DATA_DIR",
       "description": "Data directory for SQLite database and storage (must match volume mount)",
       "defaultValue": "/app/data",

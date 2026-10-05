@@ -11,6 +11,26 @@
     "value": "${{secret(16)}}",
     "description": "Initial admin login password. Change this after first login via Dashboard → Settings → Security"
   },
+  "BASE_URL": {
+    "value": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+    "description": "Canonical server-side public URL of this deployment. Without it the app falls back to http://localhost:20128, which breaks OAuth callback and cloud-sync links in the dashboard."
+  },
+  "NEXT_PUBLIC_BASE_URL": {
+    "value": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+    "description": "Browser-facing public URL, baked into the client bundle. Must match BASE_URL."
+  },
+  "HOSTNAME": {
+    "value": "0.0.0.0",
+    "description": "Bind address. Must be 0.0.0.0 for Railway to route traffic to the service."
+  },
+  "NODE_ENV": {
+    "value": "production",
+    "description": "Next.js runtime mode."
+  },
+  "AUTH_COOKIE_SECURE": {
+    "value": "true",
+    "description": "Set the Secure flag on session cookies. Upstream defaults to false, which sends session cookies without the Secure attribute."
+  },
   "DATA_DIR": {
     "value": "/app/data",
     "description": "Data directory for SQLite database and storage (must match volume mount)"
@@ -18,5 +38,9 @@
   "PORT": {
     "value": "20128",
     "description": "Port for Dashboard UI and API (single-port mode)"
+  },
+  "OMNIROUTE_MEMORY_MB": {
+    "value": "",
+    "description": "Node.js heap size in MB. Leave empty for automatic sizing from the container memory limit."
   }
 }
