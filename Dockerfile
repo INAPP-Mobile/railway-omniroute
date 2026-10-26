@@ -2,7 +2,7 @@
 # Hub) and Dependabot skips :latest, so a float silently rots. Verify the tag
 # exists at https://hub.docker.com/r/diegosouzapw/omniroute/tags and boots
 # before bumping.
-FROM diegosouzapw/omniroute:3.8.51
+FROM diegosouzapw/omniroute:3.8.52
 
 # Adaptive heap sizing (verified 2026-10-04 via cgroup-limit podman runs):
 # - upstream bakes OMNIROUTE_MEMORY_MB=1024 with a matching
