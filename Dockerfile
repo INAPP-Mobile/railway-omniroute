@@ -2,7 +2,17 @@
 # Hub) and Dependabot skips :latest, so a float silently rots. Verify the tag
 # exists at https://hub.docker.com/r/diegosouzapw/omniroute/tags and boots
 # before bumping.
-FROM diegosouzapw/omniroute:3.8.51
+#
+# 3.8.52 (#16823) fixed ollama-cloud model discovery: 3.8.51 parsed
+# /v1/models as `data.models || data.data`, but Ollama's response carries
+# BOTH — `data` (OpenAI-style rows with `id`) and `models` (native rows with
+# `slug`/`display_name` and no `id`). The parser took `data.models` first and
+# every row was dropped for having no id/model/name, so discovery returned an
+# empty catalog. With `synced_models_at` stamped by that empty sync, the
+# 3.8.51 authoritative-live-catalog gate rejected every ollama-cloud model
+# ("not available in the active live catalog"). 3.8.52 points discovery at
+# https://ollama.com/api/tags and maps name/model -> id.
+FROM diegosouzapw/omniroute:3.8.53
 
 # Adaptive heap sizing (verified 2026-10-04 via cgroup-limit podman runs):
 # - upstream bakes OMNIROUTE_MEMORY_MB=1024 with a matching
