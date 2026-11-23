@@ -12,7 +12,7 @@
 # 3.8.51 authoritative-live-catalog gate rejected every ollama-cloud model
 # ("not available in the active live catalog"). 3.8.52 points discovery at
 # https://ollama.com/api/tags and maps name/model -> id.
-FROM diegosouzapw/omniroute:3.8.53
+FROM diegosouzapw/omniroute:3.8.54
 
 # Adaptive heap sizing (verified 2026-10-04 via cgroup-limit podman runs):
 # - upstream bakes OMNIROUTE_MEMORY_MB=1024 with a matching
